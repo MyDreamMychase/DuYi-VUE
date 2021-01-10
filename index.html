@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <script src="./vue.js"></script>
+  <script src="./axios.js"></script>
   <link rel="stylesheet" href="./assets/reset.css">
   <link rel="stylesheet" href="./assets/index.css">
 </head>
@@ -25,7 +26,46 @@
       </div>
       <div class="download">下载-App</div>
     </div>
-    
+    <!-- 导航区域 -->
+    <div 
+      v-for="navIndex in 2"
+      :class="{
+        'nav-box': navIndex === 1,
+        'hide-nav-box': navIndex === 2,
+        'hide': navIndex === 2 && navHide 
+      }"
+     
+      >
+      <ul class="nav-list">
+        <li 
+         @click="handleNavClick(index)"
+         class="nav"
+         v-for="(nav, index) in navList" 
+         :key="nav.id"
+         :class='{
+           big: nav.title.length ===3 && navIndex ===2,
+           active: navActiveIndex === index
+         }'
+         >
+          {{nav.title}}
+        </li>
+      </ul>
+      
+      <div 
+        class="down"
+        v-if="navIndex === 1"
+        @click="handleClick"
+        >
+        <svg width="16" height="32" viewBox="0 0 1024 1024"><path d="M515.2 649.6L169.6 304c-12.8-12.8-32-12.8-44.8 0s-12.8 35.2 0 48l368 364.8c12.8 12.8 32 12.8 44.8 0l361.6-361.6c12.8-12.8 12.8-35.2 0-48s-32-12.8-44.8 0L515.2 649.6z" fill="#ccc"></path></svg>
+      </div>
+      <div 
+        class="up"
+        v-if="navIndex === 2"
+        @click="handleClick"
+        >
+        <svg width="16" height="32" viewBox="0 0 1024 1024"><path d="M854.4 713.6c12.8 12.8 32 12.8 44.8 0s12.8-35.2 0-48L537.6 304c-12.8-12.8-32-12.8-44.8 0L124.8 672c-12.8 12.8-12.8 35.2 0 48s32 12.8 44.8 0l345.6-342.4 339.2 336z" fill="#ccc"></path></svg>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -34,10 +74,25 @@
       el: '#app',
       data: {
         msg: '邓哥你真帅，真像宋小宝',
-        mrDeng: {
-          wife: '小刘',
-          son: '王小宝'
+        navList: [],
+        navHide: true,
+        navActiveIndex: 0
+      },
+      methods: {
+        handleClick(){
+          this.navHide = !this.navHide;
+        },
+        handleNavClick(index) {
+          this.navActiveIndex = index
         }
+      },
+      created(){
+        axios.get('https://developer.duyiedu.com/vue/bz/nav')
+        .then(res => {
+          if(res.status === 200){
+            this.navList = res.data.data
+          }
+        })
       }
     });
   </script>

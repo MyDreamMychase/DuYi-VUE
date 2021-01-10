@@ -4,31 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-       
-        .wrapper{
-            width: 600px;
-            height: 300px;
-            border: 1px solid red;
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-        }
-        .content{
-            width: 100px;
-            height: 100px;
-            border: 1px solid orange;
-            box-sizing: border-box;
-            
-        }
-    </style>
+    <script src="./vue.js"></script>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="content">1</div>
-        <div class="content">2</div>
-        <div class="content">3</div>
-      </div>
-  
+    <div id="app">
+        <span 
+           v-for="item in 2"
+        >
+           {{ item }}
+         </span>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '邓哥你真帅，真像宋小宝',
+                navList: [],
+               
+            },
+        })
+    </script>
 </body>
 </html>
